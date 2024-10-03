@@ -4,7 +4,7 @@
 const express = require('express');
 const cors = require('cors');
 
-// express instance
+// create express application
 const app = express();
 
 app.get('/', (req, res) => {
