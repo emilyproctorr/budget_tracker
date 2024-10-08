@@ -149,6 +149,16 @@ function Expenses() {
         }
     };
 
+    const handleRemoveEntry = (id: number) => {
+        // remove transaction with passed in id
+        const updatedTransactions = currentTransactions.filter(transaction => transaction.id !== id);
+        // update current transactions array
+        setTransactionsByMonthYear(prevState => ({
+            ...prevState,
+            [transactionsKey]: updatedTransactions,
+        }));
+    };
+
     return (
         <div className='expenses-page-container'>
 
@@ -181,7 +191,7 @@ function Expenses() {
                     </div>
                     
                     <div className='list-entries-container'>
-                        <ListEntries entries={currentTransactions}/>
+                        <ListEntries entries={currentTransactions} removeEntry={handleRemoveEntry}/>
                     </div>
                 </div>
 

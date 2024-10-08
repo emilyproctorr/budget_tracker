@@ -10,7 +10,7 @@ function formatDate(date: Date) {
     return `${month}/${day}/${year}`;
 }
 
-function ListEntries({ entries } : {entries : Entry[]}) {
+function ListEntries({ entries, removeEntry } : {entries : Entry[], removeEntry: (id: number) => void}) {
 
     return (
         <div className='list-entries-main-container'>
@@ -21,6 +21,7 @@ function ListEntries({ entries } : {entries : Entry[]}) {
                     <div className='amount-column'>Amount</div>
                     <div className='description-column'>Description</div>
                     <div className='category-column'>Category</div>
+                    <div className='remove-entry-column'></div>
 
                 </div>
                 <hr className="entry-list-divider"/>
@@ -33,6 +34,13 @@ function ListEntries({ entries } : {entries : Entry[]}) {
                         </div>
                         <div className='description-column'>{entry_item.description}</div>
                         <div className='category-column'>{entry_item.category}</div>
+                        <div className='remove-entry-column'>
+                            <button className='remove-entry-button' onClick={() => removeEntry(entry_item.id)}>
+                                <svg className="remove-entry-icon" xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 10 10">
+                                  <path fill="currentColor" d="M8.375 9.375 5 6 1.625 9.375l-1-1L4 5 .625 1.625l1-1L5 4 8.375.625l1 1L6 5l3.375 3.375-1 1Z"/>
+                                </svg>
+                              </button>
+                        </div>
                     </div>
                 ))}
 

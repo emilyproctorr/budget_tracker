@@ -48,7 +48,7 @@
 }
 
 .description-column {
-    flex: 0 0 300px;
+    flex: 0 0 275px;
     word-break: break-word; 
     overflow-wrap: break-word;
 }
@@ -59,7 +59,40 @@
     overflow-wrap: break-word;
 }
 
+.remove-entry-column {
+    flex: 0 0 50px;
+}
+
 .list-entries-main-container {
     position: relative; 
     overflow: visible; 
+}
+
+.remove-entry-button {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    margin-right: 10px;
+    border-width: 1.5px;
+    border-color: white;
+    background-color: #3F3F3F;
+    border-style: solid;
+
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+
+    color: white;
+}
+
+.remove-entry-icon {
+    transform: scale(3);
+}
+
+.remove-entry-button:hover svg {
+    color: #939393;
+}
+
+.remove-entry-button:hover {
+    border-color: #939393;
 }
