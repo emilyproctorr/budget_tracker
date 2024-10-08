@@ -1,0 +1,65 @@
+
+.list-entries-main-container {
+    background-color: #3F3F3F;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    border-radius: 7px;
+    overflow: hidden;
+    padding: 10px 10px 10px 10px; /* top, left, bottom, right */
+    width: 700px;
+    height: auto;
+}
+
+.column-titles {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-weight: 700;
+    font-size: 17px;
+    align-items: center;
+}
+
+.entry-row-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 10px 0px 10px 0px;
+}
+
+.entry-list-divider {
+    margin: 10px 0px 10px 0px; /* top, left, bottom, right */
+    color: white;
+    border-style: solid;
+    border-width: 0.1px;
+}
+
+.date-column {
+    flex: 0 0 100px; /* flex-grow, flex-shrink, flex-basis */
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+.amount-column {
+    flex: 0 0 100px;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+.description-column {
+    flex: 0 0 300px;
+    word-break: break-word; 
+    overflow-wrap: break-word;
+}
+
+.category-column {
+    flex: 0 0 100px;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+.list-entries-main-container {
+    position: relative; 
+    overflow: visible; 
+}

@@ -1,0 +1,20 @@
+
+.navigation-bar {
+    background-color: #29292A;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 60px;
+    height: 40px;
+    padding-right: 40px;
+    padding-top: 10px;
+}
+
+.navigation-bar a {
+    color: white;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 17px;
+    font-weight: 400;
+}
