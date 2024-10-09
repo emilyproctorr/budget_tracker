@@ -61,11 +61,7 @@
 
 .remove-entry-column {
     flex: 0 0 50px;
-}
-
-.list-entries-main-container {
-    position: relative; 
-    overflow: visible; 
+    margin-right: -20px;
 }
 
 .remove-entry-button {
