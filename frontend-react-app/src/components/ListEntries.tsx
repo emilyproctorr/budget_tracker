@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './ListEntries.css';
-import { Entry } from './types';
+import { Entry } from '../types';
 
-function ListEntries({ entries, removeEntry } : {entries : Entry[], removeEntry: (id: number) => void}) {
+function ListEntries({ entries, removeEntry } : {entries : Entry[], removeEntry: (id: string) => void}) {
 
     // format date to month/day/year format
     const formatDate = (date: Date): string => {

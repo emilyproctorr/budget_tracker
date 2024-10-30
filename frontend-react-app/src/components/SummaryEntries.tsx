@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './SummaryEntries.css';
-import { Entry } from './types';
+import { Entry } from '../types';
 
 function SummaryEntries({ entries, plannedAmounts, updatePlannedAmount } : { 
     entries: Entry[], 
@@ -34,6 +34,12 @@ function SummaryEntries({ entries, plannedAmounts, updatePlannedAmount } : {
     // initialize formatting for planned amounts upon user entry into webpage
     const initializeLocalPlannedAmounts = () => {
         const formattedAmounts: { [category: string]: string } = {}; 
+    
+        // check if plannedAmounts is empty
+        if (Object.keys(plannedAmounts).length === 0) {
+            return formattedAmounts;
+        }
+
         // format each amount to appear as currency 
         Object.entries(plannedAmounts).forEach(([category, amount]) => {
             formattedAmounts[category] = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);

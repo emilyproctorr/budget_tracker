@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 config();
 
 const uri = process.env.MONGODB_URI;
+console.log("MongoDB URI:", process.env.MONGODB_URI);
 
 // version: 1 -> latest stable server API
 // strict: true -> strict type checking and validation 
