@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import './Expenses.css';
-import { Entry, TransactionEntryFormData } from '../types';
+import { TransactionEntryFormData } from '../types';
 import ListEntries from './ListEntries';
 import SummaryEntries from './SummaryEntries';
 import AddTransactionPopup from './AddTransactionPopup';
@@ -15,7 +15,7 @@ function Expenses() {
     const [month, year] = selectedMonthYear; // array of current user selected month and year
     const transactionsKey = `${String(month).padStart(2, '0')}/${year}`; // key to access transactions array for current month and year in form month/year
 
-    // form information to enter new transaction
+    // form information to enter new transaction, initialized to all emtpy states
     const [newTransactionEntryFormData, setNewTransactionEntryFormData] = useState<TransactionEntryFormData>({ 
         day: '',
         amount: '',
@@ -23,8 +23,8 @@ function Expenses() {
         category: '',
     });
 
-    const {plannedAmountPerCategory, updatePlannedAmountForCategory, setPlannedAmountPerCategory} = usePlannedAmountPerCategory({transactionsKey});
-    const {transactionsByMonthYear, currentTransactions, handleRemoveTransaction, handleAddTransaction} = useTransactions( {newTransactionEntryFormData, setNewTransactionEntryFormData, setShowAddTransactionPopup, month, year} );
+    const {plannedAmountPerCategory, updatePlannedAmountForCategory, setPlannedAmountPerCategory} = usePlannedAmountPerCategory({transactionsKey}); // custom hook to update planned amount per category array
+    const {transactionsByMonthYear, currentTransactions, handleRemoveTransaction, handleAddTransaction} = useTransactions( {newTransactionEntryFormData, setNewTransactionEntryFormData, setShowAddTransactionPopup, month, year} ); // custom hook to update transactions array
     
     // change current month and year selection from dropdown selection
     const handleMonthYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -53,7 +53,7 @@ function Expenses() {
     // toggle popup to add transaction
     const toggleAddTransactionPopup = () => {
         setShowAddTransactionPopup(!showAddTransactionPopup);
-      };
+    };
 
 
     return (

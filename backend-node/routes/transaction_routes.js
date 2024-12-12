@@ -11,19 +11,17 @@ router.post('/add', async (req, res) => {
     try {
         const { monthYear, transaction } = req.body;
 
-        console.log("transaction", transaction);
-
         let monthYearTransaction = await month_year_transactions.findOne({ monthYear });
 
         if (monthYearTransaction) {
+
             monthYearTransaction.transactions.push(transaction);
             await monthYearTransaction.save();
-            console.log(monthYearTransaction.transactions);
             const addedTransaction = monthYearTransaction.transactions.slice(-1)[0];
-            console.log(addedTransaction);
             res.status(201).json(addedTransaction);
+
         } else {
-            // If it doesn't exist, create a new document
+
             const transactionArray = [transaction];
             const newMonthYearTransaction = new month_year_transactions({ monthYear, transactionArray });
             await newMonthYearTransaction.save();
@@ -37,6 +35,7 @@ router.post('/add', async (req, res) => {
     }
 });
 
+// post endoing to remove transactions
 router.post('/remove', async (req, res) => {
     try {
         const { monthYear, transactionID } = req.body;
@@ -60,7 +59,7 @@ router.post('/remove', async (req, res) => {
     }
 });
 
-
+// get endpoint to load transactions
 router.get('/', async (req, res) => {
     try {
         const transactions = await month_year_transactions.find();

@@ -1,15 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-
-interface PlannedAmount {
-    category: string;
-    amount: number;
-}
-
-interface MonthYearAmountCategoryTypes {
-    monthYear: string,
-    plannedAmounts: PlannedAmount[]
-}
+import { PlannedAmount, MonthYearAmountCategoryTypes } from '../types';
 
 const usePlannedAmountPerCategory = ({transactionsKey} : {transactionsKey: string}) => {
 
@@ -35,8 +26,10 @@ const usePlannedAmountPerCategory = ({transactionsKey} : {transactionsKey: strin
 
     };
 
+    // update mongodb collection
     const updatePlannedAmountPerCategory = async (monthYear: string, category: string, newAmount: number) => {
         try {
+            // post request to specific endpoint to update backend db
             const response = await axios.post("http://localhost:5001/api/categories/update", {
                 monthYear,
                 category,
@@ -48,12 +41,15 @@ const usePlannedAmountPerCategory = ({transactionsKey} : {transactionsKey: strin
         }
     };
 
+    // fetch the current planned amount per category object from the database
     useEffect(() => {
         const fetchPlannedAmountPerCategory = async () => {
             try {
+                // get request to pull from database
                 const response = await axios.get("http://localhost:5001/api/categories");
                 const reponseMonthYearPlannedAmountsCategory = response.data;
 
+                // convert db object information to correct format for frontend
                 const loadedMonthYearPlannedAmountsCategory: { [monthYear: string]: { [category: string]: number } } = {};
                 reponseMonthYearPlannedAmountsCategory.forEach((monthYearKeyAmountCategories: MonthYearAmountCategoryTypes) => {
                     const monthYearKey = monthYearKeyAmountCategories.monthYear;

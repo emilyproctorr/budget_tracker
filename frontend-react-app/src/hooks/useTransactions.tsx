@@ -17,11 +17,11 @@ interface MonthYearTransactionTypes {
 
 const useTransactions = ({newTransactionEntryFormData, setNewTransactionEntryFormData, setShowAddTransactionPopup, month, year} : useTransactionsArgs) => {
 
-    // transaction list per month and year key
-    const [transactionsByMonthYear, setTransactionsByMonthYear] = useState<{ [monthYear: string]: Entry[] }>({});
+    const [transactionsByMonthYear, setTransactionsByMonthYear] = useState<{ [monthYear: string]: Entry[] }>({}); // transaction list per month and year key
     const transactionsKey = `${String(month).padStart(2, '0')}/${year}`;
     const currentTransactions = transactionsByMonthYear[transactionsKey] || []; // transactions for selected month and year, if key doesnt exist then transactions will be empty array [] 
 
+    // send post request to update backend db transactions collection after adding new transaction
     const addTransaction = async (monthYear: string, transaction: Omit<Entry, 'id'>) => {
         try {
             const response = await axios.post("http://localhost:5001/api/transactions/add", {
@@ -34,6 +34,7 @@ const useTransactions = ({newTransactionEntryFormData, setNewTransactionEntryFor
         }
     };
 
+    // send post request to update backend db transactions collection after removing transaction
     const removeTransaction = async (monthYear: string, transactionID: string) => {
         try {
             const response = await axios.post("http://localhost:5001/api/transactions/remove", {
@@ -55,6 +56,8 @@ const useTransactions = ({newTransactionEntryFormData, setNewTransactionEntryFor
             return;
         }
         
+        // new entry information
+        // allow omit id value because use mongodb generated ObjectId
         const newTransaction: Omit<Entry, 'id'> = {
             description: newTransactionEntryFormData.description,
             amount: parseFloat(newTransactionEntryFormData.amount.replace(/[^0-9.]/g, '')), // convert amount string to float value
@@ -62,9 +65,10 @@ const useTransactions = ({newTransactionEntryFormData, setNewTransactionEntryFor
             category: newTransactionEntryFormData.category,
         };
 
-        const addedTransaction = await addTransaction(transactionsKey, newTransaction);
-        const addedTransactionId = addedTransaction._id.toString();
+        const addedTransaction = await addTransaction(transactionsKey, newTransaction); // add the transaction to the backend
+        const addedTransactionId = addedTransaction._id.toString(); // grab mongodb generated ObjectId and convert to string
 
+        // add transaction
         setTransactionsByMonthYear(prevState => ({
             ...prevState,
             [transactionsKey]: [...currentTransactions, {...newTransaction, id: addedTransactionId}] 
@@ -87,6 +91,7 @@ const useTransactions = ({newTransactionEntryFormData, setNewTransactionEntryFor
         removeTransaction(transactionsKey, id);
     };
 
+    // get request to load the initial state of transactions
     useEffect(() => {
         const fetchTransactions = async () => {
             try {

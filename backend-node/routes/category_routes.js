@@ -13,23 +13,28 @@ router.post("/update", async (req, res) => {
         // if the month/year key already exists
         if (monthYearPlannedAmountCategory) {
             
+            // check if the category exists or not
             const categoryExists = monthYearPlannedAmountCategory.plannedAmounts.find(
                 (item) => item.category === category
             );
 
+            // if category does exist
             if (categoryExists) {
+                // update that category value with new category using $set
                 await planned_amount_per_categories.updateOne(
                     { monthYear, "plannedAmounts.category": category },
                     { $set: { "plannedAmounts.$.amount": newAmount } }
                 );
+            // if category does not exist
             } else {
+                // use $push to add a new category with inital amount value
                 await planned_amount_per_categories.updateOne(
                     { monthYear },
                     { $push: { plannedAmounts: { category, amount: newAmount } } }
                 );
             }
 
-            // save this to specific collection
+            // save collection
             await monthYearPlannedAmountCategory.save();
             res.status(201).json(planned_amount_per_categories);
         }

@@ -1,56 +1,64 @@
 import React, { useState, useEffect } from 'react';
 import './AddTransactionPopup.css';
-import { Entry, TransactionEntryFormData } from '../types';
+import { TransactionEntryFormData } from '../types';
 
 function AddTransactionPopup( {showAddTransactionPopup, setShowAddTransactionPopup, newTransactionEntryFormData, setNewTransactionEntryFormData, plannedAmountPerCategory, setPlannedAmountPerCategory, handleAddTransaction, updatePlannedAmountForCategory, month, year} : {
-    showAddTransactionPopup: boolean, 
-    setShowAddTransactionPopup: React.Dispatch<React.SetStateAction<boolean>>, 
-    newTransactionEntryFormData: TransactionEntryFormData,
-    setNewTransactionEntryFormData: React.Dispatch<React.SetStateAction<TransactionEntryFormData>>,
-    plannedAmountPerCategory: { [monthYear: string]: { [category: string]: number } },
-    setPlannedAmountPerCategory: React.Dispatch<React.SetStateAction<{ [monthYear: string]: { [category: string]: number } }>>,
-    handleAddTransaction: () => void, 
-    updatePlannedAmountForCategory: (category: string, plannedAmount: string) => void,
-    month: number, 
-    year: number})  {
+    showAddTransactionPopup: boolean, // state variable to show/hide add transaction popup
+    setShowAddTransactionPopup: React.Dispatch<React.SetStateAction<boolean>>, // state updater function for showAddTransactionPopup
+    newTransactionEntryFormData: TransactionEntryFormData, // state variable that holds all information regarding new transaction
+    setNewTransactionEntryFormData: React.Dispatch<React.SetStateAction<TransactionEntryFormData>>, // state updater function for newTransactionEntryFormData
+    plannedAmountPerCategory: { [monthYear: string]: { [category: string]: number } }, // state variable / object that holds the planned amounts for each category per month/year 
+    setPlannedAmountPerCategory: React.Dispatch<React.SetStateAction<{ [monthYear: string]: { [category: string]: number } }>>, // state updater for plannedAmountPerCategory
+    handleAddTransaction: () => void, // adds a new transaction to transactions object 
+    updatePlannedAmountForCategory: (category: string, plannedAmount: string) => void, // this updates the local plannedAmountPerCategory and also the backend
+    month: number, // current month
+    year: number})  // current year
+    {
 
-
+    // returns the number of days in the currently selected month
     const getNumDaysInMonth = (month: number, year: number) => {
         return new Date(year, month, 0).getDate(); // 0 means last day of previous month, .getDate() returns day of the month
     };
 
-    const numDaysInMonth = getNumDaysInMonth(month, year); 
+    const numDaysInMonth = getNumDaysInMonth(month, year);  // number of days in currently selected month
     const monthDayOptions = Array.from({ length: numDaysInMonth }, (_, index) => index + 1); // shallow copy array with length of numDaysInMonth, getting all days in current month using index values
-    const transactionsKey = `${String(month).padStart(2, '0')}/${year}`;
+    const transactionsKey = `${String(month).padStart(2, '0')}/${year}`; // key to access transactions for specific month/year key
 
+    // turns numeric value into currency format
     const formatAmount = (amount: string) => {
-        const numericAmount = parseFloat(amount);
-        if (isNaN(numericAmount)) return amount;
-        return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(numericAmount);
-    };
+        const numericAmount = Number(amount); // converts amount string to numeric value
 
-    const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const amountValue = e.target.value;
-        const regex = /^\d*\.?\d*$/; // allow numbers and single decimal point
-        // console.log(typeof amountValue)
-        if (regex.test(amountValue)) {
-            setNewTransactionEntryFormData({ ...newTransactionEntryFormData, amount: amountValue });
+        if (isNaN(numericAmount)) { // if not a number
+            return amount; // return original string that was passed in
+        } else { // if a number
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(numericAmount); // return currency format
         }
     };
 
+    // sets the current amount in the new transaction form upon change
+    const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const amountValue = e.target.value;
+        const regex = /^\d*\.?\d*$/; // allow numbers and single decimal point
+        if (regex.test(amountValue)) {
+            setNewTransactionEntryFormData({ ...newTransactionEntryFormData, amount: amountValue }); // update amount
+        }
+    };
+
+    // formats amount in currency format when user leaves input box
     const handleAmountBlur = () => {
         const formattedAmount = formatAmount(newTransactionEntryFormData.amount);
         setNewTransactionEntryFormData({ ...newTransactionEntryFormData, amount: formattedAmount });
     };
 
     const handleAmountFocus = () => {
-        const numericAmount = parseFloat(newTransactionEntryFormData.amount.replace(/[^0-9.]/g, '')); // remove all non-numeric characters and then parseFloat() converts string to floating point number
+        const numericAmount = Number(newTransactionEntryFormData.amount.replace(/[^0-9.]/g, '')); // remove all non-numeric characters and then converts string to number
         // checks whether numericAmount is NaN, if valid number then sets this as new amount
         if (!isNaN(numericAmount)) {
             setNewTransactionEntryFormData({ ...newTransactionEntryFormData, amount: String(numericAmount) });
         }
     };
 
+    // if transaction is canceled, reinitize all input form values
     const handleCancelTransaction = () => {
         setNewTransactionEntryFormData({ day: '', amount: '', description: '', category: '' });
         setShowAddTransactionPopup(false);
@@ -72,7 +80,7 @@ function AddTransactionPopup( {showAddTransactionPopup, setShowAddTransactionPop
                 }
             }));
             setNewTransactionEntryFormData({ ...newTransactionEntryFormData, category: newCategory }); // show new cateogry as one current selected in category dropdown
-            updatePlannedAmountForCategory(newCategory, String(0));
+            updatePlannedAmountForCategory(newCategory, String(0)); // update backend
             setNewCategory('') // reset new category state
             setShowAddCategoryInput(false); // hide new category input and submit buttons
         }
