@@ -11,22 +11,22 @@ This project is currently in development. Users can view the Expenses page, and 
 
 ### Figma Designs
 
-Home Page
-![home_page_figma](https://github.com/emilyproctorr/budget_tracker/screenshots/home_page_figma.png)
+Home Page  
+<img src="screenshots/home_page_figma.png" alt="home_page_figma" width="800">
 
-Income Page
-![home_page_figma](https://github.com/emilyproctorr/budget_tracker/screenshots/expenses_page_figma.png)
+Expenses Page  
+<img src="screenshots/expenses_page_figma.png" alt="expenses_page_figma" width="800">
 
-Expenses Page
-![home_page_figma](https://github.com/emilyproctorr/budget_tracker/screenshots/income_page_figma.png)
+Income Page  
+<img src="screenshots/income_page_figma.png" alt="income_page_figma" width="800">
 
 ### Implementation
 
-Expenses Page
-![expenses_page_image](https://github.com/emilyproctorr/budget_tracker/screenshots/expenses_page.png)
+Expenses Page  
+<img src="screenshots/expenses_page.png" alt="expenses_page_image" width="800">
 
-Adding new transaction
-![add_transaction_image](https://github.com/emilyproctorr/budget_tracker/screenshots/adding_transaction_popup.png)
+Adding new transaction  
+<img src="screenshots/adding_transaction_popup.png" alt="add_transaction_image" width="800">
 
 ## Tech Stack
 
