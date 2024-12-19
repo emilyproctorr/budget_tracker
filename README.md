@@ -47,3 +47,5 @@ Database
 
 
 ## Reflection
+
+In this project, I wanted to focus on working with Node.js and Express, as I had no previous experience with these frameworks. This project has been a great learning experience so far, as I was able to move through parts of the entire application development process, starting with creating simple Figma designs and implementing a functional frontend. Then, moving towards building the backend and integrating a working database. 
